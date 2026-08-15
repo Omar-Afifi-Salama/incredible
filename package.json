@@ -7,6 +7,9 @@
         "url": "git+https://github.com/Omar-Afifi-Salama/incredible.git"
     },
     "type": "module",
+    "engines": {
+        "node": ">=20.12.0"
+    },
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "files": [
