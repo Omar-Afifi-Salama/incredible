@@ -1,10 +1,10 @@
 {
-    "name": "incredible",
+    "name": "incrediblejs",
     "version": "1.0.0",
     "description": "Declarative, extensible REST API and authentication framework",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Omar-Afifi-Salama/incredible.git"
+        "url": "git+https://github.com/Omar-Afifi-Salama/incrediblejs.git"
     },
     "type": "module",
     "engines": {
