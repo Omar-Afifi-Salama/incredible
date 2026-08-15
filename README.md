@@ -1,10 +1,9 @@
-# Incredible Framework
+# IncredibleJS Framework
 
 <div align="center">
 
-[![NPM Version](https://img.shields.io/npm/v/@omarahm3/incredible?style=for-the-badge&logo=npm&color=CB3837&logoColor=white)](https://www.npmjs.com/package/@omarahm3/incredible)
-[![CI Status](https://img.shields.io/github/actions/workflow/status/omarahm3/incredible-framework/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=CI)](https://github.com/omarahm3/incredible-framework/actions)
-[![Coverage](https://img.shields.io/badge/Coverage-85%2B%25-brightgreen?style=for-the-badge&logo=vitest&logoColor=white)](https://github.com/omarahm3/incredible-framework)
+[![NPM Version](https://img.shields.io/npm/v/incrediblejs?style=for-the-badge&logo=npm&color=CB3837&logoColor=white)](https://www.npmjs.com/package/incrediblejs)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/Omar-Afifi-Salama/incredible/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=CI)](https://github.com/Omar-Afifi-Salama/incredible/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&logo=open-source-initiative&logoColor=white)](./LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-7.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
@@ -31,14 +30,14 @@ A lightweight, declarative, and extensible TypeScript backend framework built on
 - **Pluggable Database Drivers**: Ships with an atomic file-based `JsonDriver` by default; swap to `MongooseDriver` with zero architectural changes.
 - **Hybrid Dual-Auth Architecture**: Stateless `Bearer <JWT>` tokens and stateful Express Session cookies authenticate against the same protected endpoints.
 - **Granular RBAC**: Protect routes with unified middleware guards (`authenticate`, `requireRole('admin')`).
-- **Dual ESM & CJS**: Fully typed and bundled for modern Node environments with clean subpath exports (`incredible/mongoose`, `incredible/auth`).
+- **Dual ESM & CJS**: Fully typed and bundled for modern Node environments with clean subpath exports (`incrediblejs/mongoose`, `incrediblejs/auth`).
 
 ---
 
 ## Installation
 
 ```bash
-npm install incredible zod
+npm install incrediblejs zod
 ```
 
 If you plan on using MongoDB:
@@ -58,7 +57,7 @@ import {
     defineResource,
     authenticate,
     requireRole,
-} from "incredible";
+} from "incrediblejs";
 
 await launchBackend({
     port: 4000,
@@ -183,7 +182,7 @@ Both methods decode the user onto `req.user` identically.
 Import `authenticate` and `requireRole` directly from the package to protect resource lifecycle events or custom routes:
 
 ```typescript
-import { authenticate, requireRole, defineResource } from "incredible";
+import { authenticate, requireRole, defineResource } from "incrediblejs";
 
 const posts = defineResource({
     middleware: {
@@ -209,8 +208,8 @@ const posts = defineResource({
 Default zero-setup driver. Stores data in atomic JSON files on disk:
 
 ```typescript
-import { launchBackend } from "incredible";
-import { JsonDriver } from "incredible/database"; // or default
+import { launchBackend } from "incrediblejs";
+import { JsonDriver } from "incrediblejs/database"; // or default
 
 await launchBackend({
     driver: new JsonDriver("./data"),
@@ -223,8 +222,8 @@ await launchBackend({
 Production-grade driver utilizing Mongoose models and queries:
 
 ```typescript
-import { launchBackend } from "incredible";
-import { MongooseDriver } from "incredible/mongoose";
+import { launchBackend } from "incrediblejs";
+import { MongooseDriver } from "incrediblejs/mongoose";
 
 const driver = new MongooseDriver(
     process.env.MONGODB_URI || "mongodb://localhost:27017/myapp",
