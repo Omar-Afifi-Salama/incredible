@@ -1,0 +1,88 @@
+{
+    "name": "incredible",
+    "version": "1.0.0",
+    "description": "Declarative, extensible REST API and authentication framework",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Omar-Afifi-Salama/incredible.git"
+    },
+    "type": "module",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        },
+        "./mongoose": {
+            "types": "./dist/mongoose.d.ts",
+            "import": "./dist/mongoose.js",
+            "require": "./dist/mongoose.cjs"
+        },
+        "./auth": {
+            "types": "./dist/auth.d.ts",
+            "import": "./dist/auth.js",
+            "require": "./dist/auth.cjs"
+        }
+    },
+    "scripts": {
+        "build:types": "tsc --emitDeclarationOnly --outDir dist",
+        "build:js": "tsup",
+        "build": "npm run build:js && npm run build:types",
+        "start": "node ./dist/index.js",
+        "dev": "npm run build && node ./dist/index.js",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "test:coverage": "vitest run --coverage",
+        "prepublishOnly": "npm run test:coverage && npm run build"
+    },
+    "keywords": [],
+    "author": "Omar Afifi",
+    "license": "ISC",
+    "dependencies": {
+        "bcryptjs": "^3.0.3",
+        "cors": "^2.8.6",
+        "express": "^5.2.1",
+        "express-session": "^1.19.0",
+        "jsonwebtoken": "^9.0.3",
+        "passport": "^0.7.0",
+        "passport-jwt": "^4.0.1",
+        "passport-local": "^1.0.0"
+    },
+    "peerDependencies": {
+        "mongoose": "^8.0.0",
+        "zod": "^3.23.0"
+    },
+    "peerDependenciesMeta": {
+        "mongoose": {
+            "optional": true
+        },
+        "zod": {
+            "optional": true
+        }
+    },
+    "devDependencies": {
+        "@types/bcryptjs": "^2.4.6",
+        "@types/cors": "^2.8.19",
+        "@types/express": "^5.0.6",
+        "@types/express-session": "^1.19.0",
+        "@types/jsonwebtoken": "^9.0.10",
+        "@types/node": "^26.2.0",
+        "@types/passport": "^1.0.17",
+        "@types/passport-jwt": "^4.0.1",
+        "@types/passport-local": "^1.0.38",
+        "@types/supertest": "^7.2.1",
+        "@vitest/coverage-v8": "^4.1.10",
+        "mongodb-memory-server": "^11.2.0",
+        "mongoose": "^9.9.2",
+        "supertest": "^7.2.2",
+        "tsup": "^8.5.1",
+        "typescript": "^7.0.2",
+        "vitest": "^4.1.10",
+        "zod": "^4.4.3"
+    }
+}
