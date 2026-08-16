@@ -1,8 +1,10 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose, { Schema } from "mongoose";
-import { MongooseDbAdapter } from "../src/database/MongooseDbAdapter.js";
-import { MongooseDriver } from "../src/database/MongooseDriver.js";
+import {
+    MongooseDbAdapter,
+    MongooseDriver,
+} from "../src/database/Mongo/index.js";
 
 describe("MongooseDbAdapter & Driver Integration", () => {
     let mongoServer: MongoMemoryServer;

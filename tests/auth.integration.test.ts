@@ -6,7 +6,7 @@ import fs from "fs/promises";
 import path from "path";
 import { z } from "zod";
 
-import { JsonDriver } from "../src/database/JsonDriver.js";
+import { JsonDriver } from "../src/database/Json/index.js";
 import { configurePassport } from "../src/auth/passportConfig.js";
 import { createAuthRouter } from "../src/auth/authRouter.js";
 import { authenticate } from "../src/auth/authGuard.js";

@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import { launchBackend } from "../src/server/launchBackend.js";
 import { defineResource } from "../src/server/defineResource.js";
-import { JsonDriver } from "../src/database/JsonDriver.js";
+import { JsonDriver } from "../src/database/Json/index.js";
 
 const TEST_DIR = path.join(__dirname, "launch-test-data");
 

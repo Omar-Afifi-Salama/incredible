@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterAll } from "vitest";
 import fs from "fs/promises";
 import path from "path";
-import { JsonDbAdapter } from "../src/database/JsonDbAdapter.js";
+import { JsonDbAdapter } from "../src/database/Json/index.js";
 
 const TEST_DIR = path.join(__dirname, "adapter-test-data");
 const FILE_PATH = path.join(TEST_DIR, "items.json");

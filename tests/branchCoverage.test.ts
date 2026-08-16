@@ -10,9 +10,9 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { authenticate } from "../src/auth/authGuard.js";
 import { requireRole } from "../src/auth/requireRole.js";
 import { parseFilterParams } from "../src/router/utils/parseFilterParams.js";
-import { MongooseDriver } from "../src/database/MongooseDriver.js";
+import { MongooseDriver } from "../src/database/Mongo/index.js";
 import { launchBackend } from "../src/server/launchBackend.js";
-import { JsonDriver } from "../src/database/JsonDriver.js";
+import { JsonDriver } from "../src/database/Json/index.js";
 
 const TEST_DIR = path.join(__dirname, "branch-test-data");
 

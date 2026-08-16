@@ -3,7 +3,7 @@ import express from "express";
 import request from "supertest";
 import { z } from "zod";
 import { createResourceRouter } from "../src/router/createResourceRouter.js";
-import { JsonDbAdapter } from "../src/database/JsonDbAdapter.js";
+import { JsonDbAdapter } from "../src/database/Json/index.js";
 import type { DatabaseAdapter } from "../src/database/types.js";
 
 // Mock in-memory DB Adapter for isolated testing

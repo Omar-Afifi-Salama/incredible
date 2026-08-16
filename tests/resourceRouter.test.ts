@@ -5,7 +5,7 @@ import fs from "fs/promises";
 import path from "path";
 import { z } from "zod";
 
-import { JsonDbAdapter } from "../src/database/JsonDbAdapter.js";
+import { JsonDbAdapter } from "../src/database/Json/index.js";
 import { createResourceRouter } from "../src/router/createResourceRouter.js";
 
 const TEST_DIR = path.join(__dirname, "router-test-data");

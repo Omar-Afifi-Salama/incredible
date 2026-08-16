@@ -4,7 +4,7 @@ import express, { Express } from "express";
 import session from "express-session";
 import fs from "fs/promises";
 import path from "path";
-import { JsonDriver } from "../src/database/JsonDriver.js";
+import { JsonDriver } from "../src/database/Json/index.js";
 import { createAuthRouter } from "../src/auth/authRouter.js";
 import { configurePassport } from "../src/auth/passportConfig.js";
 import { DatabaseAdapter } from "../src/database/types.js";
