@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from "mongoose";
-import type { DatabaseDriver, DatabaseAdapter, BaseRecord } from "./types.js";
+import type { DatabaseDriver, DatabaseAdapter, BaseRecord } from "../types.js";
 import { MongooseDbAdapter } from "./MongooseDbAdapter.js";
 
 export class MongooseDriver implements DatabaseDriver {

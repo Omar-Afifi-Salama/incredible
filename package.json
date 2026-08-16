@@ -1,6 +1,6 @@
 {
     "name": "incrediblejs",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "Declarative, extensible REST API and authentication framework",
     "repository": {
         "type": "git",
@@ -22,14 +22,14 @@
             "require": "./dist/index.cjs"
         },
         "./mongoose": {
-            "types": "./dist/mongoose.d.ts",
-            "import": "./dist/mongoose.js",
-            "require": "./dist/mongoose.cjs"
+            "types": "./dist/database/Mongo/index.d.ts",
+            "import": "./dist/database/Mongo/index.mjs",
+            "require": "./dist/database/Mongo/index.cjs"
         },
         "./auth": {
-            "types": "./dist/auth.d.ts",
-            "import": "./dist/auth.js",
-            "require": "./dist/auth.cjs"
+            "types": "./dist/auth/index.d.ts",
+            "import": "./dist/auth/index.js",
+            "require": "./dist/auth/index.cjs"
         }
     },
     "scripts": {
@@ -41,7 +41,12 @@
         "test": "vitest run",
         "test:watch": "vitest",
         "test:coverage": "vitest run --coverage",
-        "prepublishOnly": "npm run test:coverage && npm run build"
+        "prepublishOnly": "npm run test:coverage && npm run build",
+        "example:basic": "tsx examples/01-minimal-crud/index.ts",
+        "example:auth": "tsx examples/02-auth-and-rbac/index.ts",
+        "example:hooks": "tsx examples/03-lifecycle-hooks/index.ts",
+        "example:mongo": "tsx examples/04-mongoose-mongodb/index.ts",
+        "example:js": "node examples/05-javascript-cjs/index.js"
     },
     "keywords": [],
     "author": "Omar Afifi",
@@ -54,7 +59,9 @@
         "jsonwebtoken": "^9.0.3",
         "passport": "^0.7.0",
         "passport-jwt": "^4.0.1",
-        "passport-local": "^1.0.0"
+        "passport-local": "^1.0.0",
+        "swagger-ui-express": "^5.0.1",
+        "zod-to-json-schema": "^3.25.2"
     },
     "peerDependencies": {
         "mongoose": "^8.0.0",
@@ -79,11 +86,13 @@
         "@types/passport-jwt": "^4.0.1",
         "@types/passport-local": "^1.0.38",
         "@types/supertest": "^7.2.1",
+        "@types/swagger-ui-express": "^4.1.8",
         "@vitest/coverage-v8": "^4.1.10",
         "mongodb-memory-server": "^11.2.0",
         "mongoose": "^9.9.2",
         "supertest": "^7.2.2",
         "tsup": "^8.5.1",
+        "tsx": "^4.23.12",
         "typescript": "^7.0.2",
         "vitest": "^4.1.10",
         "zod": "^4.4.3"

@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import type { BaseRecord, DatabaseAdapter, QueryOptions } from "./types.js";
+import type { BaseRecord, DatabaseAdapter, QueryOptions } from "../types.js";
 
 export class MongooseDbAdapter<
     T extends BaseRecord = BaseRecord,

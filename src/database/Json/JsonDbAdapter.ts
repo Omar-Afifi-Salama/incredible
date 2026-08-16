@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
-import type { BaseRecord, DatabaseAdapter, QueryOptions } from "./types.js";
+import type { BaseRecord, DatabaseAdapter, QueryOptions } from "../types.js";
 
 export class JsonDbAdapter<
     T extends BaseRecord = BaseRecord,

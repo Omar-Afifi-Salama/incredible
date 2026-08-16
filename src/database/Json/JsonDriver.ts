@@ -1,6 +1,6 @@
 // src/database/JsonDriver.ts
 import path from "path";
-import type { DatabaseDriver, DatabaseAdapter } from "./types.js";
+import type { DatabaseDriver, DatabaseAdapter } from "../types.js";
 import { JsonDbAdapter } from "./JsonDbAdapter.js";
 
 export class JsonDriver implements DatabaseDriver {

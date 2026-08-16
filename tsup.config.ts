@@ -4,7 +4,8 @@ import { defineConfig } from "tsup";
 export default defineConfig({
     entry: [
         "src/index.ts",
-        "src/database/MongooseDriver.ts",
+        "src/database/Json/index.ts",
+        "src/database/Mongo/index.ts",
         "src/auth/index.ts",
     ],
     format: ["esm", "cjs"],

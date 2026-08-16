@@ -2,11 +2,13 @@ import express from "express";
 import type { Express, Request, Response, NextFunction } from "express";
 import session, { Store } from "express-session";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
 
 import type { DatabaseDriver, DatabaseAdapter } from "../database/types.js";
-import { JsonDriver } from "../database/JsonDriver.js";
+import { JsonDriver } from "../database/Json/JsonDriver.js";
 import { createResourceRouter } from "../router/createResourceRouter.js";
 import type { ResourceDefinition } from "./defineResource.js";
+import { generateOpenApiSpec } from "../docs/openapiGenerator.js";
 
 import {
     type AuthConfig,
@@ -14,6 +16,14 @@ import {
     configurePassport,
     createAuthRouter,
 } from "../auth/index.js";
+
+export interface DocsConfig {
+    enabled?: boolean;
+    path?: string;
+    title?: string;
+    version?: string;
+    description?: string;
+}
 
 export interface LaunchBackendOptions {
     port?: number;
@@ -24,6 +34,7 @@ export interface LaunchBackendOptions {
         sessionStore?: Store;
     };
     resources?: Record<string, ResourceDefinition>;
+    docs?: boolean | DocsConfig;
     onReady?: (port: number, app: Express) => void;
 }
 
@@ -61,7 +72,7 @@ export async function launchBackend(
                 secret: sessionSecret,
                 resave: false,
                 saveUninitialized: false,
-                store: authConfig.sessionStore, // In-memory by default, or MongoStore/Redis if passed
+                store: authConfig.sessionStore,
                 cookie: {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === "production",
@@ -71,7 +82,7 @@ export async function launchBackend(
             }),
         );
 
-        // B. Resolve User Database Adapter (defaults to 'users' collection/file)
+        // B. Resolve User Database Adapter
         const userAdapter =
             authConfig.userAdapter ||
             (driver.getAdapter("users") as DatabaseAdapter<BaseUserRecord>);
@@ -81,7 +92,7 @@ export async function launchBackend(
         app.use(passportInstance.initialize());
         app.use(passportInstance.session());
 
-        // D. Run custom strategy setup hook (Google, GitHub, etc.)
+        // D. Run custom strategy setup hook
         if (authConfig.setupStrategies) {
             authConfig.setupStrategies(passportInstance, userAdapter);
         }
@@ -108,13 +119,62 @@ export async function launchBackend(
                 adapter,
                 schema: resourceDef.schema,
                 middleware: resourceDef.middleware,
+                hooks: resourceDef.hooks, // Fixed: Forward lifecycle hooks
             });
 
             app.use(`${apiPrefix}/${cleanName}`, router);
         }
     }
 
-    // 6. Global Centralized Error Handler
+    // 6. Mount Auto-Generated OpenAPI & Swagger UI
+    const isDocsEnabled = options.docs !== false;
+    if (isDocsEnabled && options.resources) {
+        const docsOpt = typeof options.docs === "object" ? options.docs : {};
+        const docsPath = docsOpt.path || `${apiPrefix}/docs`;
+        const docsTitle = docsOpt.title || "API Documentation";
+        const docsVersion = docsOpt.version || "1.0.0";
+        const docsDescription = docsOpt.description;
+
+        const openApiSpec = generateOpenApiSpec({
+            title: docsTitle,
+            version: docsVersion,
+            ...(docsDescription !== undefined && {
+                description: docsDescription,
+            }),
+            apiPrefix,
+            resources: options.resources,
+            authEnabled: Boolean(options.auth),
+        });
+
+        // A. Raw OpenAPI 3.0 spec JSON endpoint
+        app.get(`${docsPath}/openapi.json`, (_req: Request, res: Response) => {
+            res.setHeader("Content-Type", "application/json");
+            res.json(openApiSpec);
+        });
+
+        // B. Redirect /api/docs -> /api/docs/ for correct asset resolution
+        app.get(docsPath, (req: Request, res: Response, next: NextFunction) => {
+            if (!req.url.endsWith("/")) {
+                return res.redirect(301, `${docsPath}/`);
+            }
+            next();
+        });
+
+        // C. Mount Swagger UI interface
+        app.use(
+            docsPath,
+            swaggerUi.serve,
+            swaggerUi.setup(openApiSpec, {
+                customSiteTitle: docsTitle,
+                swaggerOptions: {
+                    persistAuthorization: true,
+                    displayRequestDuration: true,
+                },
+            }),
+        );
+    }
+
+    // 7. Global Centralized Error Handler
     app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
         console.error("[Backend Error]:", err);
         res.status(500).json({
@@ -123,7 +183,7 @@ export async function launchBackend(
         });
     });
 
-    // 7. Start HTTP Server (wrapped in Promise for clean async/test lifecycle)
+    // 8. Start HTTP Server
     await new Promise<void>((resolve) => {
         app.listen(port, () => {
             if (options.onReady) {
@@ -132,6 +192,15 @@ export async function launchBackend(
                 console.log(
                     `API active at http://localhost:${port}${apiPrefix}`,
                 );
+                if (isDocsEnabled && options.resources) {
+                    const docsPath =
+                        typeof options.docs === "object" && options.docs.path
+                            ? options.docs.path
+                            : `${apiPrefix}/docs`;
+                    console.log(
+                        `Interactive Docs: http://localhost:${port}${docsPath}`,
+                    );
+                }
             }
             resolve();
         });
